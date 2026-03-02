@@ -1,7 +1,7 @@
 {
   "name": "optivem-eshop-frontend",
   "version": "1.0.0",
-  "description": "Frontend for Optivem eShop - Modern React + TypeScript UI built with Vite",
+  "description": "Frontend for Optivem eShop",
   "type": "module",
   "scripts": {
     "dev": "vite",

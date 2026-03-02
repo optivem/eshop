@@ -9,7 +9,7 @@ export function Home() {
     <Layout>
       <div className="jumbotron bg-light p-5 rounded">
         <h1 className="display-4">Welcome to Optivem eShop!</h1>
-        <p className="lead">Your modern e-commerce solution built with Java</p>
+        <p className="lead">Your modern e-commerce solution</p>
         <hr className="my-4" />
         <div className="row mt-4">
           <FeatureCard

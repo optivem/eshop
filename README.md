@@ -1,21 +1,11 @@
-# Modern Acceptance Testing in Legacy Code
+# eShop System
 
 [![frontend-commit-stage](https://github.com/optivem/eshop/actions/workflows/frontend-commit-stage.yml/badge.svg)](https://github.com/optivem/eshop/actions/workflows/frontend-commit-stage.yml)
 [![backend-commit-stage](https://github.com/optivem/eshop/actions/workflows/backend-commit-stage.yml/badge.svg)](https://github.com/optivem/eshop/actions/workflows/backend-commit-stage.yml)
 
-## Repositories
+## eShop System Tests
 
-[Java](https://github.com/optivem/eshop-tests-java)
-
-[![acceptance-stage](https://github.com/optivem/eshop-tests-java/actions/workflows/acceptance-stage.yml/badge.svg)](https://github.com/optivem/eshop-tests-java/actions/workflows/acceptance-stage.yml)
-
-[.NET](https://github.com/optivem/eshop-tests-dotnet)
-
-[![acceptance-stage](https://github.com/optivem/eshop-tests-dotnet/actions/workflows/acceptance-stage.yml/badge.svg)](https://github.com/optivem/eshop-tests-dotnet/actions/workflows/acceptance-stage.yml)
-
-[TypeScript](https://github.com/optivem/eshop-tests-typescript)
-
-[![acceptance-stage](https://github.com/optivem/eshop-tests-typescript/actions/workflows/acceptance-stage.yml/badge.svg)](https://github.com/optivem/eshop-tests-typescript/actions/workflows/acceptance-stage.yml)
+[eShop Tests](https://github.com/optivem/eshop-tests)
 
 ## License
 
