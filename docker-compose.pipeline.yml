@@ -1,10 +1,10 @@
 services:
 
   frontend-base:
-    image: ghcr.io/optivem/modern-acceptance-testing-in-legacy-code/frontend:latest
+    image: ghcr.io/optivem/eshop/frontend:latest
 
   backend-base:
-    image: ghcr.io/optivem/modern-acceptance-testing-in-legacy-code/backend:latest
+    image: ghcr.io/optivem/eshop/backend:latest
     environment:
       - POSTGRES_URL=jdbc:postgresql://postgres:5432/eshop
       - POSTGRES_USERNAME=eshop_user
