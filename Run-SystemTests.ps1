@@ -21,7 +21,7 @@ $ExternalModes = @("real", "stub")
 $SystemConfig = @{
     "real" = @{
         # Docker Configuration - project name prefix
-        ContainerName = "modern-acceptance-testing-real"
+        ContainerName = "eshop-real"
 
         # System Components (our application services)
         SystemComponents = @(
@@ -46,7 +46,7 @@ $SystemConfig = @{
 
     "stub" = @{
         # Docker Configuration - project name prefix
-        ContainerName = "modern-acceptance-testing-stub"
+        ContainerName = "eshop-stub"
 
         # System Components (our application services)
         SystemComponents = @(
