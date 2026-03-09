@@ -2,7 +2,8 @@
 
 export enum OrderStatus {
   PLACED = 'PLACED',
-  CANCELLED = 'CANCELLED'
+  CANCELLED = 'CANCELLED',
+  DELIVERED = 'DELIVERED'
 }
 
 // API Request types

@@ -12,7 +12,7 @@ import { useNotificationContext } from '../contexts/NotificationContext';
 export function OrderDetails() {
   const { orderNumber } = useParams<{ orderNumber: string }>();
   const navigate = useNavigate();
-  const { order, isLoading, error, isCancelling, cancelOrder } = useOrderDetails(orderNumber);
+  const { order, isLoading, error, isCancelling, cancelOrder, isDelivering, deliverOrder, isSubmittingReview, submitReview } = useOrderDetails(orderNumber);
   const { setSuccess, handleResult } = useNotificationContext();
 
   const handleCancel = useCallback(async () => {
@@ -20,6 +20,18 @@ export function OrderDetails() {
       setSuccess('Order cancelled successfully!');
     });
   }, [cancelOrder, setSuccess, handleResult]);
+
+  const handleDeliver = useCallback(async () => {
+    handleResult(await deliverOrder(), () => {
+      setSuccess('Order delivered successfully!');
+    });
+  }, [deliverOrder, setSuccess, handleResult]);
+
+  const handleSubmitReview = useCallback(async (rating: string, comment: string) => {
+    handleResult(await submitReview(rating, comment), () => {
+      setSuccess('Review submitted successfully!');
+    });
+  }, [submitReview, setSuccess, handleResult]);
 
   return (
     <Layout
@@ -49,6 +61,10 @@ export function OrderDetails() {
                   status={order.status}
                   isCancelling={isCancelling}
                   onCancel={handleCancel}
+                  isDelivering={isDelivering}
+                  onDeliver={handleDeliver}
+                  isSubmittingReview={isSubmittingReview}
+                  onSubmitReview={handleSubmitReview}
                   onBack={() => navigate('/order-history')}
                 />
               </>

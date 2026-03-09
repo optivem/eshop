@@ -4,6 +4,7 @@ import com.optivem.eshop.backend.core.dtos.BrowseOrderHistoryResponse;
 import com.optivem.eshop.backend.core.dtos.ViewOrderDetailsResponse;
 import com.optivem.eshop.backend.core.dtos.PlaceOrderRequest;
 import com.optivem.eshop.backend.core.dtos.PlaceOrderResponse;
+import com.optivem.eshop.backend.core.dtos.SubmitReviewRequest;
 import com.optivem.eshop.backend.core.entities.Order;
 import com.optivem.eshop.backend.core.entities.OrderStatus;
 import com.optivem.eshop.backend.core.exceptions.NotExistValidationException;
@@ -194,6 +195,49 @@ public class OrderService {
         }
 
         order.setStatus(OrderStatus.CANCELLED);
+        orderRepository.save(order);
+    }
+
+    public void deliverOrder(String orderNumber) {
+        if (orderNumber == null || orderNumber.trim().isEmpty()) {
+            throw new ValidationException("Order number must not be empty");
+        }
+
+        var optionalOrder = orderRepository.findByOrderNumber(orderNumber);
+
+        if (optionalOrder.isEmpty()) {
+            throw new NotExistValidationException("Order " + orderNumber + " does not exist.");
+        }
+
+        var order = optionalOrder.get();
+
+        if (order.getStatus() != OrderStatus.PLACED) {
+            throw new ValidationException("Order cannot be delivered in its current status");
+        }
+
+        order.setStatus(OrderStatus.DELIVERED);
+        orderRepository.save(order);
+    }
+
+    public void submitReview(String orderNumber, SubmitReviewRequest request) {
+        if (orderNumber == null || orderNumber.trim().isEmpty()) {
+            throw new ValidationException("Order number must not be empty");
+        }
+
+        var optionalOrder = orderRepository.findByOrderNumber(orderNumber);
+
+        if (optionalOrder.isEmpty()) {
+            throw new NotExistValidationException("Order " + orderNumber + " does not exist.");
+        }
+
+        var order = optionalOrder.get();
+
+        if (order.getStatus() != OrderStatus.DELIVERED) {
+            throw new ValidationException("Order must be delivered before a review can be submitted");
+        }
+
+        order.setRating(request.getRating());
+        order.setReviewComment(request.getComment());
         orderRepository.save(order);
     }
 

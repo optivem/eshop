@@ -63,6 +63,12 @@ public class Order {
     @Column(name = "applied_coupon_code", nullable = true)
     private String appliedCouponCode;
 
+    @Column(name = "rating", nullable = true)
+    private Integer rating;
+
+    @Column(name = "review_comment", nullable = true)
+    private String reviewComment;
+
     public Order(String orderNumber, Instant orderTimestamp, String country,
                  String sku, int quantity, BigDecimal unitPrice, BigDecimal basePrice,
                  BigDecimal discountRate, BigDecimal discountAmount, BigDecimal subtotalPrice,
