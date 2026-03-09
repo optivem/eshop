@@ -2,7 +2,8 @@ param(
     [ValidateSet("local", "pipeline")]
     [string]$Mode = "local",
 
-    [string]$TestId,
+    [string]$Suite,
+    [string]$Test,
 
     [switch]$Rebuild,
     [switch]$Restart,
@@ -87,7 +88,7 @@ if (-not $SkipTests) {
 
     $TestConfig = . $TestConfigPath
     $BuildCommands = $TestConfig.BuildCommands
-    $Tests = $TestConfig.Tests
+    $Suites = $TestConfig.Suites
 }
 
 # Script Configuration
@@ -292,6 +293,17 @@ function Test-System-Selected {
 
     $TestName = $Test.Name
     $TestCommand = $Test.Command
+
+    if ($script:Test) {
+        if ($TestCommand -match 'gradlew') {
+            $TestCommand += " --tests '*.$($script:Test)'"
+        } elseif ($TestCommand -match 'dotnet') {
+            $TestCommand += " --filter 'DisplayName~$($script:Test)'"
+        } elseif ($TestCommand -match 'playwright') {
+            $TestCommand += " --grep '$($script:Test)'"
+        }
+    }
+
     $TestPath = Join-Path $WorkingDirectory $Test.Path
     $TestReportPath = Join-Path $WorkingDirectory $Test.TestReportPath
     $TestInstallCommands = $Test.TestInstallCommands
@@ -330,14 +342,14 @@ function Test-System-Selected {
 }
 
 function Test-System {
-    $testsToRun = $Tests
+    $testsToRun = $Suites
 
-    # Filter by TestId if specified
-    if ($TestId) {
-        $testsToRun = $Tests | Where-Object { $_.Id -eq $TestId }
+    # Filter by Suite if specified
+    if ($Suite) {
+        $testsToRun = $Suites | Where-Object { $_.Id -eq $Suite }
         if (-not $testsToRun) {
-            $availableIds = ($Tests | ForEach-Object { $_.Id }) -join ", "
-            throw "Test with ID '$TestId' not found. Available IDs: $availableIds"
+            $availableIds = ($Suites | ForEach-Object { $_.Id }) -join ", "
+            throw "Test with ID '$Suite' not found. Available IDs: $availableIds"
         }
     }
 
