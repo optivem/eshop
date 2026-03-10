@@ -3,4 +3,5 @@ export { Home } from './Home';
 export { Shop } from './Shop';
 export { OrderHistory } from './OrderHistory';
 export { OrderDetails } from './OrderDetails';
+export { SubmitReview } from './SubmitReview';
 export { AdminCoupons } from './AdminCoupons';

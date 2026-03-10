@@ -88,3 +88,14 @@ export interface GetCouponResponse {
   usedCount: number;
 }
 
+// Review API types
+export interface SubmitReviewRequest {
+  orderNumber: string;
+  rating: number;
+  comment: string;
+}
+
+export interface SubmitReviewResponse {
+  reviewId: string;
+}
+
