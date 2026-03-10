@@ -54,15 +54,6 @@ class OrderService {
     });
   }
 
-  async submitReview(orderNumber: string, rating: string, comment: string): Promise<Result<void>> {
-    return fetchJson<void>(`${this.baseUrl}/${orderNumber}/review`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ rating: parseInt(rating, 10), comment })
-    });
-  }
 }
 
 export const orderService = new OrderService();

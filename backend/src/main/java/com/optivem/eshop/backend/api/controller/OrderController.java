@@ -4,14 +4,12 @@ import com.optivem.eshop.backend.core.dtos.BrowseOrderHistoryResponse;
 import com.optivem.eshop.backend.core.dtos.ViewOrderDetailsResponse;
 import com.optivem.eshop.backend.core.dtos.PlaceOrderRequest;
 import com.optivem.eshop.backend.core.dtos.PlaceOrderResponse;
-import com.optivem.eshop.backend.core.dtos.SubmitReviewRequest;
 import com.optivem.eshop.backend.core.services.OrderService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 public class OrderController {
@@ -53,9 +51,4 @@ public class OrderController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/api/orders/{orderNumber}/review")
-    public ResponseEntity<Void> submitReview(@PathVariable String orderNumber, @Valid @RequestBody SubmitReviewRequest request) {
-        orderService.submitReview(orderNumber, request);
-        return ResponseEntity.noContent().build();
-    }
 }
