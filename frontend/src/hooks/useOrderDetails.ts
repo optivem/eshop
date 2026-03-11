@@ -14,6 +14,7 @@ export function useOrderDetails(orderNumber: string | undefined) {
   const [error, setError] = useState<string | null>(null);
   const [isCancelling, setIsCancelling] = useState(false);
   const [isDelivering, setIsDelivering] = useState(false);
+  const [isSubmittingReview, setIsSubmittingReview] = useState(false);
 
   const loadOrderDetails = useCallback(async () => {
     if (!orderNumber) {
@@ -74,6 +75,22 @@ export function useOrderDetails(orderNumber: string | undefined) {
     return result;
   };
 
+  const submitReview = async (rating: string, comment: string): Promise<Result<void>> => {
+    if (!orderNumber) {
+      return { success: false, error: { message: 'No order number' } };
+    }
+
+    setIsSubmittingReview(true);
+    const result = await orderService.submitReview(orderNumber, rating, comment);
+    setIsSubmittingReview(false);
+
+    if (result.success) {
+      await loadOrderDetails();
+    }
+
+    return result;
+  };
+
   return {
     order,
     isLoading,
@@ -82,6 +99,8 @@ export function useOrderDetails(orderNumber: string | undefined) {
     cancelOrder,
     isDelivering,
     deliverOrder,
+    isSubmittingReview,
+    submitReview,
     refresh: loadOrderDetails
   };
 }
