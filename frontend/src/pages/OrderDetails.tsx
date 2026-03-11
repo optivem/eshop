@@ -4,7 +4,6 @@ import { Layout, DataState } from '../components';
 import { OrderDetailView, OrderActions } from '../features/orders';
 import { useOrderDetails } from '../hooks';
 import { useNotificationContext } from '../contexts/NotificationContext';
-import { OrderStatus } from '../types/api.types';
 
 /**
  * Order Details page component for viewing individual order information
@@ -70,7 +69,7 @@ export function OrderDetails() {
                     <p aria-label="Display Review Comment">{order.reviewComment || '\u00A0'}</p>
                   </div>
                 </div>
-                {order.status === OrderStatus.DELIVERED && !order.reviewRating && (
+                {!order.reviewRating && (
                   <div className="mt-3">
                     <h5>Submit Review</h5>
                     <div className="row">

@@ -235,7 +235,7 @@ public class OrderService {
         var order = optionalOrder.get();
 
         if (order.getStatus() != OrderStatus.DELIVERED) {
-            throw new ValidationException("Order must be delivered before submitting a review");
+            throw new ValidationException("Order has not been delivered yet");
         }
 
         var productDetails = erpGateway.getProductDetails(order.getSku());
