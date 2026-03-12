@@ -1,7 +1,6 @@
 package com.optivem.eshop.backend.core.services;
 
 import com.optivem.eshop.backend.core.dtos.BrowseOrderHistoryResponse;
-import com.optivem.eshop.backend.core.dtos.SubmitReviewRequest;
 import com.optivem.eshop.backend.core.dtos.ViewOrderDetailsResponse;
 import com.optivem.eshop.backend.core.dtos.PlaceOrderRequest;
 import com.optivem.eshop.backend.core.dtos.PlaceOrderResponse;
@@ -160,8 +159,6 @@ public class OrderService {
         response.setStatus(order.getStatus());
         response.setCountry(order.getCountry());
         response.setAppliedCouponCode(order.getAppliedCouponCode());
-        response.setReviewRating(order.getReviewRating());
-        response.setReviewComment(order.getReviewComment());
 
         return response;
     }
@@ -218,38 +215,6 @@ public class OrderService {
         }
 
         order.setStatus(OrderStatus.DELIVERED);
-        orderRepository.save(order);
-    }
-
-    public void submitReview(String orderNumber, SubmitReviewRequest request) {
-        if (orderNumber == null || orderNumber.trim().isEmpty()) {
-            throw new ValidationException("Order number must not be empty");
-        }
-
-        var optionalOrder = orderRepository.findByOrderNumber(orderNumber);
-
-        if (optionalOrder.isEmpty()) {
-            throw new NotExistValidationException("Order " + orderNumber + " does not exist.");
-        }
-
-        var order = optionalOrder.get();
-
-        if (order.getStatus() != OrderStatus.DELIVERED) {
-            throw new ValidationException("Order has not been delivered yet");
-        }
-
-        var productDetails = erpGateway.getProductDetails(order.getSku());
-        if (productDetails.isEmpty()) {
-            throw new ValidationException("sku", "Product does not exist for SKU: " + order.getSku());
-        }
-
-        var reviewable = productDetails.get().getReviewable();
-        if (!"true".equalsIgnoreCase(reviewable)) {
-            throw new ValidationException("Product is not reviewable");
-        }
-
-        order.setReviewRating(request.getRating());
-        order.setReviewComment(request.getComment());
         orderRepository.save(order);
     }
 

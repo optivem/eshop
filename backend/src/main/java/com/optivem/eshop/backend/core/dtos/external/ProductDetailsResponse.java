@@ -10,5 +10,4 @@ import java.math.BigDecimal;
 public class ProductDetailsResponse {
     private String id;
     private BigDecimal price;
-    private String reviewable;
 }

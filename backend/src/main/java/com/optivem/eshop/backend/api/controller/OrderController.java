@@ -1,7 +1,6 @@
 package com.optivem.eshop.backend.api.controller;
 
 import com.optivem.eshop.backend.core.dtos.BrowseOrderHistoryResponse;
-import com.optivem.eshop.backend.core.dtos.SubmitReviewRequest;
 import com.optivem.eshop.backend.core.dtos.ViewOrderDetailsResponse;
 import com.optivem.eshop.backend.core.dtos.PlaceOrderRequest;
 import com.optivem.eshop.backend.core.dtos.PlaceOrderResponse;
@@ -49,12 +48,6 @@ public class OrderController {
     @PostMapping("/api/orders/{orderNumber}/deliver")
     public ResponseEntity<Void> deliverOrder(@PathVariable String orderNumber) {
         orderService.deliverOrder(orderNumber);
-        return ResponseEntity.noContent().build();
-    }
-
-    @PostMapping("/api/orders/{orderNumber}/review")
-    public ResponseEntity<Void> submitReview(@PathVariable String orderNumber, @RequestBody SubmitReviewRequest request) {
-        orderService.submitReview(orderNumber, request);
         return ResponseEntity.noContent().build();
     }
 

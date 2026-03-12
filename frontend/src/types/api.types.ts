@@ -35,8 +35,6 @@ export interface ViewOrderDetailsResponse {
   totalPrice: number;
   status: OrderStatus;
   appliedCouponCode?: string;
-  reviewRating?: string;
-  reviewComment?: string;
 }
 
 // Browse Order History types
