@@ -22,7 +22,6 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      image-latest-url: ${{ steps.publish.outputs.image-latest-url }}
       image-digest-url: ${{ steps.publish.outputs.image-digest-url }}
       image-created-timestamp: ${{ steps.publish.outputs.image-created-timestamp }}
 
@@ -34,7 +33,7 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v4
 
-    - name: Setup Node.js
+    - name: Setup Runtime
       uses: actions/setup-node@v4
       with:
         node-version: '22'
@@ -43,11 +42,18 @@ jobs:
       run: npm install
       working-directory: frontend
 
-    - name: Build Frontend
+    - name: Compile Code
       run: npm run build
       working-directory: frontend
 
-    - name: Publish Docker Image
+    # - name: Run Unit Tests
+    # - name: Run Narrow Integration Tests
+    # - name: Run Component Tests
+    # - name: Run Contract Tests
+    # - name: Run Linter
+    # - name: Run Code Analysis
+
+    - name: Build and Push Artifact
       id: publish
       uses: optivem/publish-docker-image-action@v1
       with:
@@ -73,4 +79,4 @@ jobs:
       uses: optivem/summarize-commit-stage-action@v1
       with:
         stage-result: ${{ needs.build.result }}
-        success-artifact-url: ${{ needs.build.outputs.image-latest-url }}
+        success-artifact-url: ${{ needs.build.outputs.image-digest-url }}
