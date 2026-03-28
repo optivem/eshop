@@ -1,24 +1,40 @@
-name: frontend-commit-stage
+name: commit-stage-backend
 
 on:
   push:
     branches: [ "main" ]
     paths:
-        - 'frontend/**'
-        - '.github/workflows/frontend-commit-stage.yml'
+        - 'backend/**'
+        - '.github/workflows/commit-stage-backend.yml'
   pull_request:
     branches: [ "main" ]
     paths:
-        - 'frontend/**'
-        - '.github/workflows/frontend-commit-stage.yml'
+        - 'backend/**'
+        - '.github/workflows/commit-stage-backend.yml'
   workflow_dispatch:
 
 concurrency:
-  group: commit-stage-frontend-${{ github.ref }}
+  group: commit-stage-backend-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
+  check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Validate Config
+        uses: optivem/actions/validate-config@v1
+        with:
+          names: |
+            DOCKERHUB_USERNAME
+            DOCKERHUB_TOKEN
+        env:
+          DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+
   run:
+    needs: check
     runs-on: ubuntu-latest
 
     outputs:
@@ -39,20 +55,22 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
     - name: Setup Runtime
-      uses: optivem/actions/setup-node@v1
+      uses: optivem/actions/setup-java-gradle@v1
       with:
-        node-version: 22
-        working-directory: frontend
+        java-version: 21
+        working-directory: backend
 
     - name: Compile Code
-      run: npm run build
-      working-directory: frontend
+      run: ./gradlew build
+      working-directory: backend
 
     # - name: Run Unit Tests
     # - name: Run Narrow Integration Tests
     # - name: Run Component Tests
     # - name: Run Contract Tests
-    # - name: Run Linter
+    - name: Run Linter
+      run: ./gradlew checkstyleMain
+      working-directory: backend
     # - name: Run Code Analysis
 
     - name: Build Artifact
@@ -60,8 +78,8 @@ jobs:
       id: build
       uses: optivem/actions/build-docker-image@v1
       with:
-        working-directory: frontend
-        image-name: frontend
+        working-directory: backend
+        image-name: backend
         image-namespace: ${{ github.repository }}
         commit-sha: ${{ github.sha }}
         dockerfile: Dockerfile
@@ -78,7 +96,7 @@ jobs:
         REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
 
   summary:
-    needs: run
+    needs: [check, run]
     if: always()
     runs-on: ubuntu-latest
 
