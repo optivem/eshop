@@ -72,7 +72,7 @@ jobs:
       run: ./gradlew checkstyleMain
       working-directory: backend
     - name: Run Code Analysis
-      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      if: github.ref == 'refs/heads/main'
       run: ./gradlew build sonar --info
       working-directory: backend
       env:
