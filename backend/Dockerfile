@@ -20,6 +20,7 @@ COPY init.gradle ./
 
 # Copy sources
 COPY src ./src
+COPY config ./config
 
 # Set JVM options for TLS and networking
 ENV JAVA_TOOL_OPTIONS="-Dhttps.protocols=TLSv1.2,TLSv1.3 -Djdk.tls.client.protocols=TLSv1.2,TLSv1.3 -Djavax.net.ssl.sessionCacheSize=1000"
