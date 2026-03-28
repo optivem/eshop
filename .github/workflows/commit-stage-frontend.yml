@@ -73,11 +73,15 @@ jobs:
       working-directory: frontend
     - name: Run Code Analysis
       if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-      run: npx sonar-scanner -Dsonar.projectKey=optivem_eshop-frontend -Dsonar.organization=optivem -Dsonar.sources=src
-      working-directory: frontend
+      uses: SonarSource/sonarcloud-github-action@v5
+      with:
+        projectBaseDir: frontend
+        args: >
+          -Dsonar.projectKey=optivem_eshop-frontend
+          -Dsonar.organization=optivem
+          -Dsonar.sources=src
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
 
     - name: Build Artifact
       if: github.ref == 'refs/heads/main'
